@@ -1,0 +1,136 @@
+[build-system]
+requires = ["setuptools>=69.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jack"
+version = "0.5.0"
+description = "Jack V0.5 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [
+    { name = "Jack Project" }
+]
+keywords = [
+    "local-first",
+    "agent",
+    "autonomy",
+    "chassis",
+    "llm",
+    "rag"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.7.0",
+    "chromadb>=0.5.0",
+    "docker>=7.1.0",
+    "playwright>=1.45.0",
+    "markdownify>=0.12.1",
+    "openai>=1.30.0",
+    "cryptography>=42.0.0",
+    "PyYAML>=6.0.1",
+    "jupyter-client>=8.0.0",
+    "ipykernel>=6.0.0",
+    "sympy>=1.12",
+    "mpmath>=1.3.0",
+    "numpy>=1.26.0",
+    "scipy>=1.10.0",
+    "pdfplumber>=0.10.0",
+    "pdf2image>=1.16.0",
+    "pytesseract>=0.3.10",
+    "Pillow>=10.0.0",
+]
+
+[project.optional-dependencies]
+re2 = [
+    "google-re2>=1.1.20240702",
+]
+dev = [
+    "pytest>=8.2.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+
+[project.scripts]
+jack = "jack.cli:main"
+
+[tool.poetry]
+name = "jack"
+version = "0.5.0"
+description = "Jack V0.5 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
+authors = ["Jack Project"]
+readme = "README.md"
+packages = [{include = "jack"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+fastapi = ">=0.111.0"
+uvicorn = {extras = ["standard"], version = ">=0.30.0"}
+pydantic = ">=2.7.0"
+chromadb = ">=0.5.0"
+docker = ">=7.1.0"
+playwright = ">=1.45.0"
+markdownify = ">=0.12.1"
+openai = ">=1.30.0"
+cryptography = ">=42.0.0"
+PyYAML = ">=6.0.1"
+jupyter-client = ">=8.0.0"
+ipykernel = ">=6.0.0"
+sympy = ">=1.12"
+mpmath = ">=1.3.0"
+numpy = ">=1.26.0"
+scipy = ">=1.10.0"
+pdfplumber = ">=0.10.0"
+pdf2image = ">=1.16.0"
+pytesseract = ">=0.3.10"
+Pillow = ">=10.0.0"
+google-re2 = {version = ">=1.1.20240702", optional = true}
+
+[tool.poetry.extras]
+re2 = ["google-re2"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jack*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = [
+    ".git",
+    ".github",
+    "__pycache__",
+    "*.egg-info",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "high_irq_deliverables",
+    "shadow_ledger",
+    "supreme_architect_protocol",
+    "tmp_*.py",
+]
+
+[tool.ruff.lint]
+# Phase 0 baseline guard: parse the tree and fail on undefined names while the
+# historical style backlog is paid down in later, behavior-preserving cleanup PRs.
+select = ["F821"]
+
+[tool.mypy]
+python_version = "3.10"
+namespace_packages = true
+explicit_package_bases = true
+ignore_missing_imports = true
+ignore_errors = true
+warn_unused_configs = true

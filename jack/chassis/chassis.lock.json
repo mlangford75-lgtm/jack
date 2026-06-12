@@ -1,0 +1,13 @@
+{
+  "hashes": {
+    "jack/agents/tas_general_agent.py": "44ac6b2cd2b1f96f113337ffca9431f7ed61791e8d6197205c13e362ece67c1d",
+    "jack/chassis/config.py": "920e3f16bbf35632fdd01f4264b370af32d909d6496cee0dc8716fa6c7d98f41",
+    "jack/chassis/contract_validator.py": "04cf1b44a422c24d929d292614aaa412ed83f25731d238183d5cb54531bacf07",
+    "jack/chassis/router.py": "1d5bd5d823760809ea2ff3e824d8d72511e3b29e4e2901c91f20f8f12fc1fd8c",
+    "jack/chassis/sovereign_lock.py": "bddda48a295e37d7633c44e3166445efa850bcb7512967587dde06af7bdae9a7",
+    "jack/chassis/step_executor.py": "d55613757846df4433488faf51ad8d4ac88ff2ad063deebce880c48801200428",
+    "jack/chassis/tool_synthesizer.py": "9004280e974a7551054156d785c77a8b0d90fab680c1d2e31b4827c600aa072f",
+    "jack/main.py": "9515216cbd12ba1a053c1c68f613db7bb66207a0a499dba92a3db537744f4e4a"
+  },
+  "hmac_signature": "2e10d12ca32359472ddc782853a09f37863e407777419548ea0e6afc9ef1f50b"
+}

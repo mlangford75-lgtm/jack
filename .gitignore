@@ -1,0 +1,98 @@
+# Byte-compiled / optimized / DLL files
+**/__pycache__/**
+**/*.py[cod]
+**/*$py.class
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# C extensions
+**/*.so
+
+# Distribution / packaging
+**/build/**
+**/develop-eggs/**
+**/dist/**
+**/downloads/**
+**/eggs/**
+**/.eggs/**
+**/lib/**
+**/lib64/**
+**/parts/**
+**/sdist/**
+**/var/**
+**/wheels/**
+**/share/python-wheels/**
+**/*.egg-info/**
+**/.installed.cfg
+**/*.egg
+**/MANIFEST
+
+# Local / Developer configurations and testing
+**/*.log
+**/*.tmp
+**/*.temp
+**/*.bak
+**/*.orig
+**/*.rej
+**/*.swp
+**/*.swo
+
+# Virtual environments
+**/.venv/**
+**/venv/**
+**/ENV/**
+**/env/**
+
+# IDE / OS specific files
+**/.vscode/**
+**/.idea/**
+**/*.DS_Store
+**/Thumbs.db
+
+# Project Jack Specific Dead Zones & Volatile DBs
+**/shadow_ledger/**
+**/.jack_ledger/**
+**/logs/**
+**/high_irq_deliverables/**
+**/jack.vault
+**/.env
+**/.vault
+**/*.jacktmp
+
+# Exclude local test outputs and generated files
+**/pi_100.txt
+**/pi_100_digits.txt
+**/pi_digits.txt
+**/linear_regression_results.txt
+**/regression_results.txt
+**/adjudication_report.txt
+**/fibonacci_test.txt
+**/jack_poem.txt
+**/large_document.txt
+**/prime_proof.txt
+**/prime_number_script.py
+**/primes_test.py
+**/linear_regression_script.py
+**/rogue_agent.py
+**/safe_tone.wav
+**/tone_440hz.wav
+**/Test_Prompt.txt
+**/project_map.txt
+**/debug_knowledge.py
+**/encode_prompt.py
+**/encoder_script.py
+**/local_validator.py
+**/manager.py
+**/parsed_gauntlet_prompts.json
+**/gauntlet_results_intermediate.json
+**/generate_audit_bundle.py
+**/generate_backup.py
+**/generate_backup_v2.py
+**/generate_backup_v3.py
+**/Final_Gauntlet_Audit_Report.md
+**/Jack_Code_Audit_Bundle.txt
+
+# Exclude private canary secrets and local HMAC-signed allowlists
+**/.jack/canaries.yaml
+**/.jack/verb_allowlist.json
