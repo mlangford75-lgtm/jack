@@ -37,6 +37,8 @@
 **/*.rej
 **/*.swp
 **/*.swo
+Update-summary/
+prove_bugs.py
 
 # Virtual environments
 **/.venv/**

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jack"
-version = "0.5.0"
-description = "Jack V0.5 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
+version = "0.5.1"
+description = "Jack V0.5.1 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Proprietary" }
@@ -49,6 +49,7 @@ dependencies = [
     "pdf2image>=1.16.0",
     "pytesseract>=0.3.10",
     "Pillow>=10.0.0",
+    "tiktoken>=0.7.0",
 ]
 
 [project.optional-dependencies]
@@ -66,8 +67,8 @@ jack = "jack.cli:main"
 
 [tool.poetry]
 name = "jack"
-version = "0.5.0"
-description = "Jack V0.5 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
+version = "0.5.1"
+description = "Jack V0.5.1 (BETA): A local-first autonomous agent chassis with swappable probabilistic engines."
 authors = ["Jack Project"]
 readme = "README.md"
 packages = [{include = "jack"}]
@@ -94,6 +95,7 @@ pdfplumber = ">=0.10.0"
 pdf2image = ">=1.16.0"
 pytesseract = ">=0.3.10"
 Pillow = ">=10.0.0"
+tiktoken = ">=0.7.0"
 google-re2 = {version = ">=1.1.20240702", optional = true}
 
 [tool.poetry.extras]
