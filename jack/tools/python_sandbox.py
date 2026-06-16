@@ -70,19 +70,28 @@ class PythonREPL:
         self._docker_available = None
 
     def _ensure_last_print(self, code: str) -> str:
-        """Deterministically coerce the last line of the script to print its output."""
-        lines = code.strip().split("\n")
-        if not lines:
+        """Deterministically coerce the last line of the script to print its output, preserving indentation."""
+        lines = code.split("\n")
+        last_idx = -1
+        for i in range(len(lines) - 1, -1, -1):
+            if lines[i].strip():
+                last_idx = i
+                break
+        if last_idx == -1:
             return code
-        last_line = lines[-1].strip()
-        if "print" in last_line or "import" in last_line:
+            
+        last_line_raw = lines[last_idx]
+        last_line_stripped = last_line_raw.strip()
+        
+        if "print" in last_line_stripped or "import" in last_line_stripped:
             return code
-        if not last_line or last_line.startswith("#"):
+        if last_line_stripped.startswith("#"):
             return code
-        # Avoid wrapping assignments or block definitions
-        if "=" in last_line or last_line.endswith(":"):
+        if "=" in last_line_stripped or last_line_stripped.endswith(":"):
             return code
-        lines[-1] = "print(" + last_line + ")"
+            
+        indent = last_line_raw[:len(last_line_raw) - len(last_line_stripped)]
+        lines[last_idx] = f"{indent}print({last_line_stripped})"
         return "\n".join(lines)
 
     def run(self, code: str, *args: Any, **kwargs: Any) -> str:

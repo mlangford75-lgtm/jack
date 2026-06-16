@@ -764,6 +764,8 @@ class JackWorkstation:
 
         max_attempts = MAX_RETRIES + 1
         attempt = 1
+        watermark_breaches = 0
+
         while attempt <= max_attempts:
             current_prompt = normalized_prompt
             if self._last_safe_checkpoint is not None:
@@ -775,6 +777,10 @@ class JackWorkstation:
                 await self._emit_event(event_callback, "irq", "interrupted", f"StreamingIRQ severed Engine stream on attempt {attempt}/{max_attempts}: {exc.violation_type}", telemetry_enabled=self.telemetry_enabled)
                 
                 if exc.violation_type == "HOT_CONTEXT_WATERMARK_BREACH":
+                    watermark_breaches += 1
+                    if watermark_breaches > 2:
+                        raise RuntimeError("Sovereign Invariant Violated: Context Compaction failed to reduce memory footprint. Fail-closed to prevent infinite loop.")
+                        
                     await self._emit_event(event_callback, "librarian", "active", "Mid-stream watermark breach detected. Commencing emergency Context Defragmentation.", telemetry_enabled=self.telemetry_enabled)
                     await self.defragment_context()
                     await self._emit_event(event_callback, "librarian", "complete", f"Emergency Context Defragmentation complete. Compacted context size: {self.hot_context.count_tokens()} tokens.", telemetry_enabled=self.telemetry_enabled)
@@ -783,6 +789,7 @@ class JackWorkstation:
                     # Do not increment attempt counter for memory management interrupts
                     continue
 
+                watermark_breaches = 0 # Reset on other interrupts
                 if attempt >= max_attempts:
                     raise exc
                 try:
@@ -1107,7 +1114,7 @@ class JackWorkstation:
 
     def _assert_verification_succeeded(self, output: str) -> None:
         if not output.strip():
-            raise ContractValidationError("TS-003 Proof Gate failed: deterministic tool returned empty output.")
+            raise ContractValidationError("TS-003 Proof Gate failed: deterministic verification was required, but no safe script could be derived.")
 
     def _assert_muscle_matches_verification(self, muscle_output: str, verification_output: str) -> None:
         # Verify that the muscle's output preserves or aligns with the deterministic proof gate output.

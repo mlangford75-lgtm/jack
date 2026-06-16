@@ -246,19 +246,29 @@ class TASJudge:
         synthesis_verdict = synthesis_response.content
         
         # Tolerant Extraction & Closing the Fail-Open Vulnerability
-        verdict_match = re.search(r"(?i)\bVERDICT:\s*(GO|NO-GO)\b", synthesis_verdict)
-        if not verdict_match:
+        all_verdicts = re.findall(r"(?i)\bVERDICT:\s*(GO|NO-GO)\b", synthesis_verdict)
+        
+        if not all_verdicts:
             return TASJudgeResult(
                 is_strike=True, 
                 reason=StrikeReason.EPISTEMIC_INSTABILITY, 
                 message=f"Synthesis failed to provide a strict VERDICT: GO or VERDICT: NO-GO. Output: {synthesis_verdict}"
             )
             
-        if verdict_match.group(1).upper() == "NO-GO":
+        normalized_verdicts = [v.upper() for v in all_verdicts]
+        
+        # Fail-closed: If NO-GO exists ANYWHERE in the output, it is a strike.
+        if "NO-GO" in normalized_verdicts:
             return TASJudgeResult(
                 is_strike=True, 
                 reason=StrikeReason.EPISTEMIC_INSTABILITY, 
                 message=f"Master of Synthesis rejected plan due to epistemic instability: {synthesis_verdict}"
             )
-        else:
+        elif "GO" in normalized_verdicts:
             return TASJudgeResult(is_strike=False, message=f"Friction Protocol survived. Synthesis: {synthesis_verdict}")
+        else:
+            return TASJudgeResult(
+                is_strike=True,
+                reason=StrikeReason.EPISTEMIC_INSTABILITY,
+                message="Ambiguous verdict parsed."
+            )

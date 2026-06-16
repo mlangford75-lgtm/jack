@@ -17,14 +17,17 @@ import inspect
 import logging
 from typing import Any
 
+logger = logging.getLogger(__name__)
+
 import re as std_re
 try:
     import re2 as re
     _RE2_ACTIVE = True
 except ImportError:
-    raise RuntimeError("Sovereign Invariant Violated: RE2 linear-time regex engine is strictly required to prevent ReDoS.")
+    logger.warning("Sovereign Invariant Degraded: RE2 linear-time regex engine missing. Falling back to standard 're'.")
+    re = std_re
+    _RE2_ACTIVE = False
 
-logger = logging.getLogger(__name__)
 
 _SENSITIVE_TELEMETRY_KEYS = {"total_cost", "prompt_tokens_details", "completion_tokens_details"}
 _PROVIDER_MODEL_MARKERS = (

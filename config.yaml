@@ -4,26 +4,28 @@
 # This configuration file governs the deterministic Chassis safety gates and maps
 # cognitive roles to your swappable local and cloud-delegated Engines.
 #
+# THE SOVEREIGN INVARIANT: Probabilistic cognition may propose, but 
+# deterministic software must dispose.
+#
 # NOTE: Jack is local-first. It NEVER leaks your private data, local variables,
 # or codebase files to external servers unless you explicitly configure a public
-# cloud provider (like Gemini or OpenAI) and authorize delegation.
+# cloud provider and authorize delegation.
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# 1. HOT CONTEXT BOUNDARY (Active Memory Limits)
+# 1. HOT CONTEXT BOUNDARY (Top 15 Feature #6: Periodic Context Defragmentation)
 # ------------------------------------------------------------------------------
 hot_context:
-  # The active context budget in tokens (min: 4096, max: 128000).
+  # NOTE: The active context budget must be between 4096 and 128000 tokens.
   # If the conversational buffer or step execution stdout exceeds 75% of this capacity,
   # Jack's Chassis automatically freezes execution and commands the Librarian to run
-  # a 50% high-density Context Defragmentation/Compaction pass.
+  # a 50% high-density Context Defragmentation/Compaction pass to prevent OOMs.
   max_tokens: 48000
 
 # ------------------------------------------------------------------------------
-# 2. RETRIEVAL & SHADOW LEDGER POLICY (RAG and Chunking)
+# 2. RETRIEVAL & SHADOW LEDGER (Top 15 Feature #5: XML Expanded Knowledge)
 # ------------------------------------------------------------------------------
 retrieval:
-  # The tenant workspace identifier. Resolves to the local database at shadow_ledger/
   project_id: jack_v05_beta
   chunk_size: 1000
   chunk_overlap: 100
@@ -32,129 +34,150 @@ retrieval:
 # 3. LLM PROVIDERS & ENGINE REASONING CHANNELS
 # ------------------------------------------------------------------------------
 llm:
-  # The default provider to use if a role mapping is missing.
-  default_provider: Gemma-4-26B
+  default_provider: Local-Micro-Execution
 
-  # Configure your swappable probabilistic Engines below.
-  # Jack is fully OpenAI-compatible. You can target LM Studio, Ollama, vLLM, or Cloud APIs.
   providers:
-    # --- Local Macro-Planning Engine (Gemma-4-26B MoE equivalent) ---
-    - name: Gemma-4-26B
+    # --- Local Macro-Planning Engine ---
+    # Purpose: High-context planning, heavy reasoning, and JSON/XML generation.
+    # Recommended: Gemma 4 26B or equivalent large local model.
+    - name: Local-Macro-Planning
       kind: openai_compatible
-      model: google/gemma-4-26b-a4b-qat    # Swap this with your local model file name in LM Studio
-      base_url: http://127.0.0.1:1234/v1   # Standard LM Studio local server endpoint
-      api_key: local                       # Local mock key
-      timeout_seconds: 600.0               # High timeout to prevent stream dropouts during heavy local computation
-      max_retries: 2
-
-    # --- Local Micro-Execution Engine (Gemma-4-12B equivalent) ---
-    - name: Gemma-4-12B
-      kind: openai_compatible
-      model: google/gemma-4-12b-qat        # Swap this with your local model file name in LM Studio
+      model: your-local-large-model-name
       base_url: http://127.0.0.1:1234/v1
       api_key: local
       timeout_seconds: 600.0
       max_retries: 2
 
-    # --- Cloud-Delegated Adjudication Engine (Gemini Flash) ---
-    # Used strictly to prove how Jack can safely exploit cloud-scale reasoning 
-    # without exposing local credentials, directories, or system files.
-    - name: Gemini-Flash-Lite
+    # --- Local Micro-Execution Engine ---
+    # Purpose: Rapid code generation, tool usage, and fast tactical responses.
+    # Recommended: Gemma 4 12B or equivalent fast local model.
+    - name: Local-Micro-Execution
+      kind: openai_compatible
+      model: your-local-fast-model-name
+      base_url: http://127.0.0.1:1234/v1
+      api_key: local
+      timeout_seconds: 600.0
+      max_retries: 2
+
+    # --- Powerful Adjudication Engine ---
+    # Purpose: High-stakes auditing and Tri-Agent Synthesis (Master of Synthesis).
+    # Recommended: Gemini or OpenAI equivalent.
+    # SECURE POLICY: Never hard-code your private API keys in static files!
+    # Declare the environment variable containing your key here (Dynamic Vault Isolation).
+    - name: Powerful-Adjudicator
       kind: openai_compatible
       model: gemini-3.1-flash-lite
       base_url: https://generativelanguage.googleapis.com/v1beta/openai/
-      # SECURE POLICY: Never hard-code your private API keys in static files!
-      # Declare the name of the environment variable containing your key here.
-      # At runtime, Jack will inject it safely at the socket layer from RAM.
       api_key_env: GEMINI_API_KEY
       timeout_seconds: 600.0
       max_retries: 2
 
-    # --- Long-Term Memory Vectorization & Embeddings ---
-    - name: Librarian-Embed
+    # --- Local Embeddings ---
+    # Purpose: Vectorizes documents for the Librarian Shadow Ledger.
+    - name: Local-Embeddings
       kind: openai_compatible
-      model: text-embedding-embeddinggemma-300m
+      model: your-embedding-model-name
       base_url: http://127.0.0.1:1234/v1
       api_key: local
       timeout_seconds: 120.0
 
-    # --- Neural Rerank Model for the Librarian ---
-    - name: Librarian-Rerank
+    # --- Local Reranker ---
+    # Purpose: Re-ranks retrieved vector documents for context accuracy.
+    - name: Local-Reranker
       kind: openai_compatible
-      model: google/gemma-4-26b-a4b-qat
-      reranker_model: mxbai-rerank-base-v2
-      base_url: http://127.0.0.1:1234/v1
+      model: your-reranker-model-name
+      reranker_model: your-reranker-model-name
+      base_url: http://127.0.0.1:1338/v1  # e.g., Jan.ai or LM Studio port
       api_key: local
       timeout_seconds: 120.0
 
   # ----------------------------------------------------------------------------
-  # 4. DEPARTMENTALIZED ROLE BINDINGS (The 7 Pillars & TAS Loop)
+  # 4. DEPARTMENTALIZED ROLE BINDINGS (Top 15 Feature #12: 7 Locked Pillars)
   # ----------------------------------------------------------------------------
   # Jack splits cognitive labor across isolated roles to prevent "role collapse"
   # (where a single model plans, writes, and reviews its own work).
   roles:
-    # --- Pillar I: Manager (The Planner / Architect) ---
-    # Deconstructs user prompt and proposes a formal, sandboxed JSON/XML plan.
-    - role: manager
-      provider: Gemma-4-26B
+    # ========================================================================
+    # THE SEVEN PILLARS OF DEPARTMENTALIZED COGNITION
+    # ========================================================================
 
-    # --- Pillar III: Muscle (The Synthesizer / Executor) ---
-    # Translates individual plan steps into code, text, or local actions.
-    - role: muscle
-      provider: Gemma-4-12B
+    # --- Pillar I: Manager (The Architect) ---
+    # Mandate: Deconstructs user prompts and proposes formal, sandboxed JSON/XML execution plans.
+    # Restriction: Has no direct tool access. Outputs must pass static ContractValidator.
+    - role: manager
+      provider: Local-Macro-Planning
 
     # --- Pillar II: Judge (The Master Auditor) ---
-    # Performs deterministic pre-flight reviews and re-ranks memory.
+    # Mandate: Executes deterministic safety reviews, DLP audits, and memory reranking.
+    # Restriction: Locked strictly to greedy decoding (temp 0.0) for absolute reproducibility.
     - role: judge
-      provider: Gemini-Flash-Lite
+      provider: Powerful-Adjudicator
 
-    # --- Pillar VI: Visual Studio (Governed Visuals) ---
-    # Generates images under strict prompt sanitation and visual DLP.
+    # --- Pillar III: Muscle (The Synthesizer) ---
+    # Mandate: Translates individual plan steps into actionable code, text, or terminal commands.
+    # Restriction: All binary and text outputs are strictly quarantined (Ghost Ledger) before commit.
+    - role: muscle
+      provider: Local-Micro-Execution
+
+    # --- Pillar IV: Eyes (Ingestion & Visual) ---
+    # Mandate: Converts external images and documents into Markdown Proofs for safe context.
+    # Restriction: Raw sources become cryptographically verified proofs, never raw context.
+    - role: eyes
+      provider: Local-Micro-Execution
+
+    # --- Pillar V: Librarian (The Memory Dept) ---
+    # Mandate: Retrieves context, executes memory, and manages proof defragmentation allowlists.
+    # Restriction: Retrieval carries strict provenance and remains evidence, never authority.
+    - role: librarian
+      provider: Local-Macro-Planning
+
+    # --- Pillar VI: Visual Studio (Governed Visual) ---
+    # Mandate: Generates images under strict prompt sanitation and metadata stripping.
+    # Restriction: Generation sits behind strict multimodal Data Loss Prevention (DLP).
     - role: visual_studio
-      provider: Gemma-4-26B
+      provider: Local-Macro-Planning
 
     # --- Pillar VII: Audio Studio (Governed Audio) ---
-    # Generates speech synthesis from sanitized transcripts.
+    # Mandate: Generates speech synthesis from sanitized transcripts.
+    # Restriction: Output sits behind offline FFT spectral analysis and steganography gates (Ultrasonic Gate).
     - role: audio_studio
-      provider: Gemma-4-26B
+      provider: Local-Macro-Planning
 
-    # --- Pillar IV: Eyes (Ingestion & OCR) ---
-    # Native multimodal model that transcribes local images and PDFs.
-    - role: eyes
-      provider: Gemma-4-12B
+    # ========================================================================
+    # THE TRI-AGENT SYNTHESIS (TAS) PROTOCOL (Top 15 Feature #4)
+    # ========================================================================
 
-    # --------------------------------------------------------------------------
-    # --- The Tri-Agent Synthesis (TAS) Friction Loop ---
-    # Used for advanced adversarial reviews of high-risk plan trajectories.
-    # --------------------------------------------------------------------------
-    # TAS Stage 1: Thesis (Architect proposes the solution)
+    # TAS Stage 1: Thesis
+    # Role: The Architect proposing the initial solution with alternatives and failure modes.
     - role: tas_thesis
-      provider: Gemma-4-26B
+      provider: Local-Macro-Planning
 
-    # TAS Stage 2: Antithesis (Sage of Friction exposes gaps and assumptions)
+    # TAS Stage 2: Antithesis
+    # Role: The Sage of Friction exposing hidden assumptions and challenging boundary conditions.
     - role: tas_antithesis
-      provider: Gemma-4-12B
+      provider: Local-Micro-Execution
 
-    # TAS Stage 3: Synthesis (Master of Synthesis tie-breaks and adjudicates)
+    # TAS Stage 3: Synthesis
+    # Role: The Master of Synthesis acting as the ruthless tie-breaker using Sandbox evidence.
     - role: tas_synthesis
-      provider: Gemini-Flash-Lite
+      provider: Powerful-Adjudicator
 
 # ------------------------------------------------------------------------------
 # 5. SOVEREIGN CHASSIS HARDENING & SAFETY GATES
 # ------------------------------------------------------------------------------
-# Telemetry Kill Switch: Set to false to run completely dark.
-# When false, all errors are redacted, and zero metadata is leaked.
+# Top 15 Feature #15: Telemetry Kill Switch. When false, zero metadata is leaked.
 telemetry_enabled: false
 
-# Streaming IRQ Window Size: The sliding window size in characters used to 
-# quarantine outgoing token streams and catch exfiltration attempts mid-token.
-# This size is fully adjustable based on your security tolerances (256 is default).
+# Top 15 Feature #1: StreamingIRQ. Adjustable sliding window size for mid-token quarantine.
 streaming_irq_window_size: 256
 
-# Mathematical Sandbox Fallback: Allow Jack to safely execute Python/Z3S SMT
-# code locally on the host's Python environment if the Docker engine is missing.
+# Top 15 Feature #3: Zero-Network Math Sandbox. False = strict Docker isolation.
 allow_local_subprocess_fallback: true
 
-# Show Thinking: Displays the model's internal cognitive trace/reasoning
-# process inside a separate visual terminal block.
+# Thinking Decoupling: Displays the internal cognitive trace inside visual terminal block.
 show_thinking: true
+
+# Top 15 Feature #4: TAS Proportional Scaling Ceilings
+tas_thesis_max_tokens: 2048
+tas_critique_max_tokens: 1000
+tas_synthesis_max_tokens: 4096
